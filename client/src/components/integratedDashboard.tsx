@@ -24,7 +24,7 @@ const App = () => {
   }
 
   return (
-    <div className="relative bg-gray-900 text-white h-screen flex flex-col w-screen">
+    <div className="relative bg-gray-900 text-white max-h-screen flex flex-col w-screen">
       {/* Optional Overlay for Better Contrast */}
       <div className="absolute inset-0 bg-black opacity-50"></div>
       
