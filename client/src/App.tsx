@@ -5,6 +5,7 @@ import LuxurySignupPage from './components/signup';
 import EnhancedLogin from './components/login';
 import Dashboard from './components/dashboard';
 import IntegratedDashboard from './components/integratedDashboard';
+import MainPage from './components/mainPage';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/login" element={<EnhancedLogin/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/integratedDashboard" element={<IntegratedDashboard/>} />
+        <Route path="/mainPage" element={<MainPage/>} />
         {/* <Route path="/chat" element={<MainContent/>} /> */}
       </Routes>
     </Router>
