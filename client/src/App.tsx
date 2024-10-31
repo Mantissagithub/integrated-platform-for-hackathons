@@ -3,9 +3,10 @@
 import React from 'react';
 import LuxurySignupPage from './components/signup';
 import EnhancedLogin from './components/login';
-import Dashboard from './components/dashboard';
-import IntegratedDashboard from './components/integratedDashboard';
+// import Dashboard from './components/dashboard';
+// import IntegratedDashboard from './components/integratedDashboard';
 import MainPage from './components/mainPage';
+import LoadingPage from './components/loadingPage';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 const App = () => {
@@ -18,8 +19,9 @@ const App = () => {
         {/* <Route path="/" element={<WelcomePage/>} /> */}
         <Route path="/" element={<LuxurySignupPage/>} />
         <Route path="/login" element={<EnhancedLogin/>} />
-        <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/integratedDashboard" element={<IntegratedDashboard/>} />
+        {/* <Route path="/dashboard" element={<Dashboard/>} /> */}
+        {/* <Route path="/integratedDashboard" element={<IntegratedDashboard/>} /> */}
+        <Route path="/loadingPage" element={<LoadingPage/>} />
         <Route path="/mainPage" element={<MainPage/>} />
         {/* <Route path="/chat" element={<MainContent/>} /> */}
       </Routes>

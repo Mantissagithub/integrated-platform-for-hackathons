@@ -1,8 +1,8 @@
 //@ts-nocheck
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Lightbulb, PenTool, Presentation, Save, Plus, Trash2, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Lightbulb, PenTool, Presentation, Save, Plus, Trash2, Sparkles, Zap } from 'lucide-react';
 
 interface PresentationIdeationProps {
   theme: any;
@@ -35,7 +35,6 @@ const PresentationIdeation: React.FC<PresentationIdeationProps> = ({ theme }) =>
   };
 
   const generateScript = () => {
-    // This is a mock function. In a real application, you'd call an AI service here.
     const mockScript = `
     Introduction: "Hello everyone! We're excited to present our solution to [Problem Statement].
     
@@ -58,84 +57,156 @@ const PresentationIdeation: React.FC<PresentationIdeationProps> = ({ theme }) =>
 
   return (
     <div className="p-6 space-y-6">
-      <h2 className={`text-3xl font-bold mb-4 ${theme.text}`}>Presentation Ideation</h2>
+      <motion.h2 
+        className="text-5xl font-extrabold mb-8 text-center transform -skew-x-6"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
+        style={{ 
+          color: theme.accent,
+          textShadow: `3px 3px 0px ${theme.primary}, 6px 6px 0px ${theme.secondary}`,
+        }}
+      >
+        Presentation Ideation
+      </motion.h2>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="rounded-lg shadow-md"
-          style={{ backgroundColor: theme.cardBg }}
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, type: "spring" }}
+          className="rounded-lg shadow-xl relative overflow-hidden"
+          style={{ 
+            backgroundColor: theme.cardBg,
+            boxShadow: `0 0 20px ${theme.accent}, inset 0 0 30px rgba(0,0,0,0.2)`,
+          }}
         >
-          <h3 className={`text-xl font-semibold mb-4 flex items-center ${theme.text}`}>
-            <Lightbulb className="mr-2 h-5 w-5 text-yellow-500" />
-            Brainstorming Board
-          </h3>
-          <div className="space-y-4 items-center">
-            {ideas.map((idea) => (
-              <motion.div
-                key={idea.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                className="flex items-center justify-between p-2 rounded-md m-3"
-                style={{ backgroundColor: theme.cardBg === '#FFFFFF' ? '#F3F4F6' : '#4B5563' }} // Light and dark mode backgrounds
-              >
-                <span className={theme.text}>{idea.content}</span>
-                <button
-                  onClick={() => removeIdea(idea.id)}
-                  className="text-red-500 hover:text-red-700"
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-10" 
+               style={{
+                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.2' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E")`,
+               }}
+          />
+          
+          <div className="p-6 relative z-10">
+            <h3 className="text-2xl font-bold mb-6 flex items-center transform -skew-x-6" style={{ color: theme.accent }}>
+              <Lightbulb className="mr-2 h-6 w-6" style={{ color: theme.secondary }} />
+              Brainstorming Board
+            </h3>
+            
+            <AnimatePresence mode="popLayout">
+              {ideas.map((idea) => (
+                <motion.div
+                  key={idea.id}
+                  initial={{ opacity: 0, x: -50, scale: 0.9 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: 50, scale: 0.9 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                  className="flex items-center justify-between p-4 rounded-lg mb-3 transform -skew-x-2"
+                  style={{ 
+                    backgroundColor: `${theme.cardBg}33`,
+                    boxShadow: `3px 3px 0px ${theme.primary}`,
+                    border: `2px solid ${theme.accent}33`
+                  }}
                 >
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </motion.div>
-            ))}
-          </div>
-          <div className="mt-4 flex p-2 m-3 rounded-md">
-            <input
-              type="text"
-              value={newIdea}
-              onChange={(e) => setNewIdea(e.target.value)}
-              placeholder="Add a new idea..."
-              className={`flex-1 p-2 rounded-l-md border ${theme.border} bg-white dark:bg-gray-700`}
-              style={{ borderColor: theme.border }}
-            />
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={addIdea}
-              className={`bg-primary text-white px-4 py-2 rounded-r-md flex items-center`}
-            >
-              <Plus className="h-4 w-4 mr-1" /> Add
-            </motion.button>
+                  <span className="font-bold" style={{ color: theme.text }}>{idea.content}</span>
+                  <motion.button
+                    whileHover={{ scale: 1.1, rotate: 15 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => removeIdea(idea.id)}
+                    className="text-red-500 hover:text-red-700 p-2"
+                  >
+                    <Trash2 className="h-5 w-5" />
+                  </motion.button>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+
+            <div className="mt-6 flex rounded-lg overflow-hidden transform -skew-x-2"
+                 style={{ border: `2px solid ${theme.accent}33` }}>
+              <input
+                type="text"
+                value={newIdea}
+                onChange={(e) => setNewIdea(e.target.value)}
+                placeholder="Add a new idea..."
+                className="flex-1 p-3 bg-white dark:bg-gray-800"
+                style={{ color: theme.text }}
+              />
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={addIdea}
+                className="px-6 py-3 flex items-center font-bold"
+                style={{ backgroundColor: theme.primary, color: theme.background }}
+              >
+                <Plus className="h-5 w-5 mr-2" /> Add
+              </motion.button>
+            </div>
           </div>
         </motion.div>
+
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-          className="rounded-lg shadow-md m-2"
-          style={{ backgroundColor: theme.cardBg }}
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, type: "spring", delay: 0.2 }}
+          className="rounded-lg shadow-xl relative overflow-hidden"
+          style={{ 
+            backgroundColor: theme.cardBg,
+            boxShadow: `0 0 20px ${theme.accent}, inset 0 0 30px rgba(0,0,0,0.2)`,
+          }}
         >
-          <h3 className={`text-xl font-semibold mb-4 flex items-center p-2 m-2 ${theme.text}`}>
-            <Sparkles className="mr-2 h-5 w-5 text-blue-500" />
-            AI Script Generator
-          </h3>
-          <p className={`mb-4 p-2 ${theme.text}`}>Click the button below to generate a presentation script based on your ideas.</p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={generateScript}
-            className={`bg-secondary text-white px-6 py-2 rounded-md hover:bg-opacity-80 transition-colors duration-200 mb-4 p-2 m-2`}
-          >
-            Generate Script
-          </motion.button>
-          {generatedScript && (
-            <div className={`p-4 rounded-md`} style={{ backgroundColor: theme.cardBg }}>
-              <h4 className={`font-semibold mb-2 ${theme.text}`}>Generated Script:</h4>
-              <p className={`whitespace-pre-wrap ${theme.text}`}>{generatedScript}</p>
-            </div>
-          )}
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-10" 
+               style={{
+                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.2' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E")`,
+               }}
+          />
+          
+          <div className="p-6 relative z-10">
+            <h3 className="text-2xl font-bold mb-6 flex items-center transform -skew-x-6" style={{ color: theme.accent }}>
+              <Sparkles className="mr-2 h-6 w-6" style={{ color: theme.secondary }} />
+              AI Script Generator
+            </h3>
+            
+            <p className="mb-6 font-medium" style={{ color: theme.text }}>
+              Click the button below to generate a presentation script based on your ideas.
+            </p>
+            
+            <motion.button
+              whileHover={{ scale: 1.05, rotate: -2 }}
+              whileTap={{ scale: 0.95, rotate: 2 }}
+              onClick={generateScript}
+              className="px-8 py-4 rounded-lg font-bold flex items-center justify-center mb-6 transform -skew-x-2"
+              style={{ 
+                backgroundColor: theme.secondary,
+                color: theme.background,
+                boxShadow: `4px 4px 0px ${theme.accent}`,
+              }}
+            >
+              <Zap className="h-5 w-5 mr-2" />
+              Generate Script
+            </motion.button>
+            
+            <AnimatePresence>
+              {generatedScript && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="p-6 rounded-lg relative"
+                  style={{ 
+                    backgroundColor: `${theme.cardBg}33`,
+                    border: `2px solid ${theme.accent}33`,
+                  }}
+                >
+                  <h4 className="font-bold mb-4 transform -skew-x-6" style={{ color: theme.accent }}>
+                    Generated Script:
+                  </h4>
+                  <p className="whitespace-pre-wrap font-medium" style={{ color: theme.text }}>
+                    {generatedScript}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </motion.div>
       </div>
     </div>
